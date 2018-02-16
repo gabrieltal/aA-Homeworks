@@ -1,11 +1,11 @@
 class Stack
-  attr_reader :store
   def initialize
     @store = []
   end
 
   def add(el)
     @store << el
+    el
   end
 
   def remove
@@ -13,7 +13,7 @@ class Stack
   end
 
   def show
-    @store
+    @store.dup
   end
 
 end
