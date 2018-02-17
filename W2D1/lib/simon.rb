@@ -1,3 +1,4 @@
+require 'byebug'
 class Simon
   COLORS = %w(red blue green yellow)
 
@@ -10,7 +11,6 @@ class Simon
   end
 
   def play
-    add_random_color
     until @game_over
       take_turn
       system("clear")
@@ -21,9 +21,10 @@ class Simon
 
   def take_turn
     show_sequence
+    #debugger
     input = require_sequence
     unless input == seq
-      @game_over == true
+      @game_over = true
     end
 
     unless @game_over
@@ -33,18 +34,19 @@ class Simon
   end
 
   def show_sequence
+    add_random_color
     @seq.each do |el|
       p el
       sleep 0.75
       system("clear")
       sleep 0.25
     end
-    add_random_color
   end
 
   def require_sequence
     puts "Please enter the sequence (e.g. red, blue, green,...)"
     guess = gets.chomp.split(",").to_a
+    guess.map { |el| el.strip }
   end
 
   def add_random_color
