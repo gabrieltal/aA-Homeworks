@@ -10,8 +10,10 @@ class Simon
   end
 
   def play
+    add_random_color
     until @game_over
       take_turn
+      system("clear")
     end
     game_over_message
     reset_game
@@ -19,7 +21,11 @@ class Simon
 
   def take_turn
     show_sequence
-    require_sequence
+    input = require_sequence
+    unless input == seq
+      @game_over == true
+    end
+
     unless @game_over
       round_success_message
       @sequence_length += 1
@@ -27,11 +33,18 @@ class Simon
   end
 
   def show_sequence
+    @seq.each do |el|
+      p el
+      sleep 0.75
+      system("clear")
+      sleep 0.25
+    end
     add_random_color
   end
 
   def require_sequence
-
+    puts "Please enter the sequence (e.g. red, blue, green,...)"
+    guess = gets.chomp.split(",").to_a
   end
 
   def add_random_color
@@ -39,11 +52,11 @@ class Simon
   end
 
   def round_success_message
-
+    puts "Hey you're pretty good at this!"
   end
 
   def game_over_message
-
+    puts "Game over! You made it to sequence #{@sequence_length}. Good job! Try again?"
   end
 
   def reset_game
@@ -52,3 +65,5 @@ class Simon
     @seq = []
   end
 end
+
+Simon.new.play
