@@ -12,6 +12,8 @@ class Simon
 
   def play
     until @game_over
+      puts "Simon says: "
+      sleep 0.75
       take_turn
       system("clear")
     end
@@ -55,10 +57,20 @@ class Simon
 
   def round_success_message
     puts "Hey you're pretty good at this!"
+    puts "Next round!"
+    sleep 0.90
   end
 
   def game_over_message
     puts "Game over! You made it to sequence #{@sequence_length}. Good job! Try again?"
+    puts "Press p to play again, q to quit"
+    input = gets.chomp
+    if input == "p"
+      reset_game
+      play
+    elsif input == "q"
+      exit
+    end
   end
 
   def reset_game
