@@ -25,30 +25,31 @@ class Board
     if start_pos <= 0 || start_pos >= 13
       raise "Invalid starting cup"
     end
-
+    raise "Invalid starting cup" if @cups[start_pos].empty?
   end
 
   def make_move(start_pos, current_player_name)
-    idx = start_pos + 1
+    idx = start_pos
     until @cups[start_pos].empty?
+      idx += 1
+      idx %= 14 if idx >= 14
       if current_player_name == name2
         @cups[idx] << @cups[start_pos].shift unless idx == 6
       elsif current_player_name == name1
         @cups[idx] << @cups[start_pos].shift unless idx == 13
       end
-      idx += 1
-      idx %= 14 if idx >= 14
     end
     render
     next_turn(idx)
   end
 
   def next_turn(ending_cup_idx)
-    # helper method to determine what #make_move returnsending_cup_idx -= 1
-    return :switch if @cups[ending_cup_idx-1].empty?
-    return ending_cup_idx-1 unless @cups[ending_cup_idx].empty?
-    if ending_cup_idx == 7 || ending_cup_idx == 14
-      return :prompt
+    if ending_cup_idx == 6 || ending_cup_idx == 13
+      :prompt
+    elsif @cups[ending_cup_idx].count == 1
+      :switch
+    else
+      ending_cup_idx
     end
   end
 
