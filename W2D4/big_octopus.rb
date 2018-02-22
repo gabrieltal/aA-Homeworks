@@ -66,3 +66,29 @@ p clever_octopus(fishes)
 
 
 # DANCE DANCE REVOLUTION IN COMES THE OCTOPUS EVERYONE STEP BACK AND BE PREPARED
+
+tiles_array = ["up", "right-up", "right", "right-down", "down", "left-down", "left",  "left-up" ]
+
+def slow_dance(dir, tiles)
+  tiles.each_with_index do |el, idx|
+    return idx if el == dir
+  end
+  -1
+end
+
+p "HERE COMES THE SLOW DANCING OCTOPUS, HE'S STILL LEARNING HOW TO DANCE"
+p slow_dance("up", tiles_array)
+p slow_dance("right-down", tiles_array)
+
+tiles_hash = Hash.new
+tiles_array.each_with_index do |el, idx|
+  tiles_hash[el] = idx
+end
+
+def fast_dance(dir, tiles_hash)
+  tiles_hash[dir]
+end
+
+p "HERE COMES THE QUICK DANCING OCTOPUS, WHOA LOOK AT HIM GO"
+p fast_dance("up", tiles_hash)
+p fast_dance("right-down", tiles_hash)
