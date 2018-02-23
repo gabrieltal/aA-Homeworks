@@ -25,6 +25,7 @@
 class LRUCache
   def initialize(size)
     @array = Array.new(size)
+    @size = size
   end
 
   def count
@@ -32,9 +33,14 @@ class LRUCache
   end
 
   def add(el)
-    unless @array.include?(el)
-      @array[1..-1] = @array[0..-2]
-      @array[0] = el
+    if @array.include?(el)
+      @array.delete(el)
+      @array << el
+    elsif count >= @size
+      @array.shift
+      @array << el
+    else
+      @array << el
     end
   end
 
