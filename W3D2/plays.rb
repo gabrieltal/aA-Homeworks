@@ -12,7 +12,7 @@ class PlayDBConnection < SQLite3::Database
 end
 
 class Playwright
-  attr_accessor :name, :birthyear
+  attr_accessor :name, :birth_year
   attr_reader :id
 
   def self.all
@@ -23,7 +23,7 @@ class Playwright
   def initialize(options)
     @id = options['id']
     @name = options['name']
-    @birthyear = options['birthyear']
+    @birth_year = options['birth_year']
   end
 
   def self.find_by_name(name)
@@ -41,9 +41,9 @@ class Playwright
 
   def create
     raise "#{self} already in database" if @id
-    PlayDBConnection.instance.execute(<<-SQL, @name, @birthyear)
+    PlayDBConnection.instance.execute(<<-SQL, @name, @birth_year)
       INSERT INTO
-        playwrights (name, birthyear)
+        playwrights (name, birth_year)
       VALUES
         (?, ?)
     SQL
@@ -52,11 +52,11 @@ class Playwright
 
   def update
     raise "#{self} not in database" unless @id
-    PlayDBConnection.instance(<<-SQL, @name, @birthyear, @id)
+    PlayDBConnection.instance(<<-SQL, @name, @birth_year, @id)
       UPDATE
         playwrights
       SET
-        name = ?, birthyear = ?
+        name = ?, birth_year = ?
       WHERE
         id = ?
     SQL
